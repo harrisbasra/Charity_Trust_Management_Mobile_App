@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "603248941877",
-    "project_id": "netikash-live",
-    "storage_bucket": "netikash-live.appspot.com"
+    "project_number": "35232307782",
+    "project_id": "juft-f904f",
+    "storage_bucket": "juft-f904f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:603248941877:android:3e89ac763243f200088a7c",
+        "mobilesdk_app_id": "1:35232307782:android:9d38f91f1868437eee8847",
         "android_client_info": {
-          "package_name": "com.example.test"
+          "package_name": "com.example.juft"
         }
       },
       "oauth_client": [
         {
-          "client_id": "603248941877-8rfj8vjgu2c5t2vonn59rt5usmnb89qh.apps.googleusercontent.com",
+          "client_id": "35232307782-lkmjclco26kl7j5nivke54gi18hs38h5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.juft",
+            "certificate_hash": "07184a3030ee1536ff81370094ec42985c44a01d"
+          }
+        },
+        {
+          "client_id": "35232307782-2ojdffv922ehss7v1o044akj0g58kmgm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyChSUzO6PZNgCsCcO_L3247vReOADB_jwE"
+          "current_key": "AIzaSyDEK2uUjD0LL-ZdW_Uisv3a0hsfp-go9zI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "603248941877-8rfj8vjgu2c5t2vonn59rt5usmnb89qh.apps.googleusercontent.com",
+              "client_id": "35232307782-2ojdffv922ehss7v1o044akj0g58kmgm.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

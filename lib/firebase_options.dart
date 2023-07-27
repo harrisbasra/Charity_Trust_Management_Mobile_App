@@ -45,8 +45,8 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCktawp7X4zUE9K52yCDBSrqZLN5wf2FKU',
-    appId: '1:603248941877:web:088fef0e907dd165088a7c',
+    apiKey: 'AIzaSyDEK2uUjD0LL-ZdW_Uisv3a0hsfp-go9zI',
+    appId: '1:35232307782:android:9d38f91f1868437eee8847',
     messagingSenderId: '603248941877',
     projectId: 'netikash-live',
     authDomain: 'netikash-live.firebaseapp.com',
@@ -55,26 +55,26 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyChSUzO6PZNgCsCcO_L3247vReOADB_jwE',
-    appId: '1:603248941877:android:3e89ac763243f200088a7c',
+    apiKey: 'AIzaSyDEK2uUjD0LL-ZdW_Uisv3a0hsfp-go9zI',
+    appId: '1:35232307782:android:9d38f91f1868437eee8847',
     messagingSenderId: '603248941877',
-    projectId: 'netikash-live',
-    storageBucket: 'netikash-live.appspot.com',
+    projectId: 'juft-f904f',
+    storageBucket: 'juft-f904f.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBy9jRR4kF6gn4dLgxHXc2IS-6bvxCqEFg',
-    appId: '1:603248941877:ios:729fa8a9f749a006088a7c',
+    apiKey: 'AIzaSyDEK2uUjD0LL-ZdW_Uisv3a0hsfp-go9zI',
+    appId: '1:35232307782:android:9d38f91f1868437eee8847',
     messagingSenderId: '603248941877',
-    projectId: 'netikash-live',
-    storageBucket: 'netikash-live.appspot.com',
+    projectId: 'juft-f904f',
+    storageBucket: 'juft-f904f.appspot.com',
     iosClientId: '603248941877-kna3fsu407ta54cqgh0baho11n6dntgb.apps.googleusercontent.com',
     iosBundleId: 'com.example.test',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBy9jRR4kF6gn4dLgxHXc2IS-6bvxCqEFg',
-    appId: '1:603248941877:ios:729fa8a9f749a006088a7c',
+    apiKey: 'AIzaSyDEK2uUjD0LL-ZdW_Uisv3a0hsfp-go9zI',
+    appId: '1:35232307782:android:9d38f91f1868437eee8847',
     messagingSenderId: '603248941877',
     projectId: 'netikash-live',
     storageBucket: 'netikash-live.appspot.com',
