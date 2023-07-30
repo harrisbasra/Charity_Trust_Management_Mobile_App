@@ -6,7 +6,6 @@ import 'package:test/splash_screen00.dart';
 void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MyApp());
-
 }
 
 class MyApp extends StatelessWidget {

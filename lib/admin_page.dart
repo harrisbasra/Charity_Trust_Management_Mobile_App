@@ -30,6 +30,7 @@ class admin_page extends StatelessWidget{
               },
               controller: Password,
               style: TextStyle(color: Colors.black),
+              enableInteractiveSelection: false,
               obscureText: true,
               decoration: InputDecoration(
                 hintText: 'Enter Admin Passcode',

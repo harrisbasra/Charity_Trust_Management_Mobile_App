@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 List<String> names = ['Item 1', 'Item 2', 'Item 3'];
 List<String> raised = ['10', '20', '30', '40', '50', '60'];
@@ -9,7 +10,6 @@ class user_enters  extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -34,7 +34,10 @@ class user_enters  extends StatelessWidget {
                       ),
                       child: TextButton(
                         onPressed: () {
-                          // Handle first button tap
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) => PDFView()),
+                          // );
                         },
                         child: Text(
                           "About Us",
@@ -77,13 +80,85 @@ class user_enters  extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10,),
-              // for (int i = 0; i < 5; i++)
-              //   ProjectCards(name: names[i],totalAmount: total[i],raisedAmount: raised[i],),
-              ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
-              ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
-              ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  color: Color.fromRGBO(0, 0, 0, 0.3),
+                  height: 300,
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
+                          ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
+                          ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
+                          ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
+                          ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
+                          ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Facebook icon
+                  CircleAvatar(
+                    radius: 15,
+                    backgroundColor: Colors.blue,
+                    child: Icon(
+                      Icons.facebook,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
 
-              SizedBox(height: 10),
+                  SizedBox(width: 16),
+
+                  // Instagram icon
+                  InkWell(
+                    onTap: (){
+                      _launchURL("www.instagram.com/harrisbasra");
+                    },
+                    child: CircleAvatar(
+                      radius: 15,
+                      backgroundColor: Colors.purple,
+                      child: Image.asset("assets/images/instagram.png", scale: 0.5,),
+                    ),
+                  ),
+
+                  SizedBox(width: 16),
+
+                  // Twitton
+                  CircleAvatar(
+                    radius: 15,
+                    backgroundColor: Color.fromRGBO(85, 172, 238, 1),
+                    child: Image.asset("assets/images/twitter.png", scale: 0.5,),
+                    // Icon(
+                    //   Icons.cancel_outlined,
+                    //   color: Colors.white,
+                    //   size: 20,
+                    // ),
+                  ),
+                  SizedBox(width: 16),
+
+                  // Phone icon
+                  CircleAvatar(
+                    radius: 15,
+                    backgroundColor: Colors.green,
+                    child: Icon(
+                      Icons.phone,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 15,),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: Color.fromRGBO(219, 188, 85, 1),
@@ -108,6 +183,7 @@ class user_enters  extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 10,),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: Color.fromRGBO(219, 188, 85, 1),
@@ -207,5 +283,14 @@ class ProjectCards extends StatelessWidget {
         SizedBox(height: 10,)
       ],
     );
+  }
+
+}
+void _launchURL(String url) async {
+  Uri uri = Uri.parse(url);
+  if (await canLaunchUrl(uri)) {
+    await launchUrl(uri);
+  } else {
+    throw 'Could not launch $url';
   }
 }
