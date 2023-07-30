@@ -1,16 +1,18 @@
-# test
+# Charity Trust Mobile Application
 
-A new Flutter project.
+An App to donate charity trust and manage charity money.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+1. View Charity Projects
+2. Donate Money via Card
+3. Check Audit Details
+4. Control Projects from Admin Side
 
-A few resources to get you started if this is your first Flutter project:
+## Framework
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+This application has been developed in Flutter Framework, using Dart
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## CopyRights
+
+This application is developed by @harrisbasra
