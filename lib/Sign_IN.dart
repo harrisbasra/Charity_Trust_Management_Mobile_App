@@ -52,7 +52,7 @@ class _sign_inState extends State<sign_in> {
                     onPressed: (){
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => user_enters()),
+                        SlideFromRightPageRoute(enterPage: user_enters()),
                       );
                     },
                     child: Text(
@@ -131,5 +131,41 @@ class _sign_inState extends State<sign_in> {
 
   }
 }
+
+class SlideFromRightPageRoute extends PageRouteBuilder {
+  final Widget enterPage;
+
+  SlideFromRightPageRoute({required this.enterPage})
+      : super(
+    pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        ) =>
+    enterPage,
+    transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+        ) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.elasticInOut;
+
+      var tween = Tween(begin: begin, end: end);
+      var curvedAnimation = CurvedAnimation(
+        parent: animation,
+        curve: curve,
+      );
+
+      return SlideTransition(
+        position: tween.animate(curvedAnimation),
+        child: child,
+      );
+    },
+  );
+}
+
 
 

@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-List<String> names = ['Item 1', 'Item 2', 'Item 3'];
-List<String> raised = ['10', '20', '30', '40', '50', '60'];
-List<String> total = ['20', '30', '40', '50', '60', '70'];
+import 'MessageFromCEO.dart';
+
+
 
 class user_enters  extends StatelessWidget {
   @override
@@ -172,7 +172,7 @@ class user_enters  extends StatelessWidget {
                 onPressed: (){
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => user_enters()),
+                    MaterialPageRoute(builder: (context) => CEOPage()),
                   );
                 },
                 child: Text(

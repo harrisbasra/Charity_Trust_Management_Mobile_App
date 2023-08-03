@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:test/Update_Audits.dart';
+import 'package:test/UploadProject.dart';
+
+import 'RequestsPage.dart';
 
 class admin_enters extends StatelessWidget{
   @override
@@ -8,14 +12,18 @@ class admin_enters extends StatelessWidget{
       appBar: AppBar(
         title: Text('ADMIN PORTAL'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => AddPhone()),
-              // );
-            },
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(
+              iconSize: 30,
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Add_Project()),
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -112,7 +120,10 @@ class admin_enters extends StatelessWidget{
                       minimumSize: Size(double.infinity, 120),
                     ),
                     onPressed: () {
-                      // Add onPressed action for "Update Audits" button
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Update_Audits()),
+                      );
                     },
                     child: Text(
                       'Update Audits',
@@ -135,7 +146,10 @@ class admin_enters extends StatelessWidget{
                       minimumSize: Size(double.infinity, 120),
                     ),
                     onPressed: () {
-                      // Add onPressed action for "Update Projects" button
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => UpdateProjectsPage()),
+                      );
                     },
                     child: Text(
                       'Update Projects',
