@@ -20,6 +20,13 @@ dependencies:
   firebase_database: ^10.2.3
   url_launcher: ^6.0.0
   image_picker: ^1.0.1
+  intl: ^0.17.0
+  hijri: ^3.0.0
+  table_calendar: ^3.0.0
+  jhijri_picker: ^1.0.0
+  quran: 1.2.2
+  firebase_auth: ^4.6.3
+  cached_network_image: ^3.0.0
 
 
 dev_dependencies:

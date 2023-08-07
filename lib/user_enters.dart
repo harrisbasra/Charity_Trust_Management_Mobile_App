@@ -1,217 +1,373 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:test/ShowAudits.dart';
+import 'package:test/zakatcalculator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'HijriCalendarPage.dart';
 import 'MessageFromCEO.dart';
+import 'package:intl/intl.dart';
+import 'package:hijri/hijri_calendar.dart';
 
+import 'Prayer_times.dart';
+import 'Quran.dart';
 
 
 class user_enters  extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
+        key:_scaffoldKey,
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              SizedBox(height: 50,),
-              Center(
+              Container(
+                height: 300,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/masjid.png'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 50, left: 20),
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                _scaffoldKey.currentState!.openDrawer();
+                              },
+                              child: Icon(Icons.menu),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Text(
+                                  getCurrentTime(),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Text(
+                                  getHijriCalendarDate(),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Column(
+                  children: [
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Align(
+                          alignment: Alignment.center,
+                          child: Text("PROJECTS",
+                            //textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                          )
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        color: Color.fromRGBO(0, 0, 0, 0.3),
+                        height: 260,
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
+                                ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
+                                ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
+                                ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
+                                ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
+                                ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Align(
+                          //alignment: Alignment.center,
+                          child: Text("ACCESSORIES",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                          )
+                      ),
+                    ),
+                    SizedBox(height: 15,),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(129, 58, 50,0.8),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ShowAudits()),
+                                );
+                              },
+                              child: Text(
+                                "Audits",
+                                style: TextStyle(color: Colors.white, fontSize: 15),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Container(
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(129, 58, 50,0.8),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => NamazTimesPage()),
+                                );
+                              },
+                              child: Text(
+                                "Prayers",
+                                style: TextStyle(color: Colors.white, fontSize: 15),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Container(
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(129, 58, 50,0.8),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => HijriCalender()),
+                                );
+                              },
+                              child: Text(
+                                "Calender",
+                                style: TextStyle(color: Colors.white, fontSize: 15),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 15,),
+
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        drawer: Drawer(
+        width: 280,
+        child: Column(
+          children: [
+            SizedBox(height: 30,),
+            Container(
+              padding: EdgeInsets.all(16),
+              color: Colors.white, // You can set your desired color here
+              child:  Center(
                 child: Image.asset(
                   'assets/images/img.png',
                   width: 110,
                   height: 110,
                 ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(40, 175, 139, 1),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) => PDFView()),
-                          // );
-                        },
-                        child: Text(
-                          "About Us",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Container(
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(99, 101, 100, 1),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          // Handle second button tap
-                        },
-                        child: Text(
-                          "Audits",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(height: 20),
-              
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Projects: ",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                    )
-                ),
-              ),
-              SizedBox(height: 10,),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Container(
-                  color: Color.fromRGBO(0, 0, 0, 0.3),
-                  height: 300,
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
-                          ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
-                          ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
-                          ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
-                          ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
-                          ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Facebook icon
-                  CircleAvatar(
-                    radius: 15,
-                    backgroundColor: Colors.blue,
-                    child: Icon(
-                      Icons.facebook,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
-
-                  SizedBox(width: 16),
-
-                  // Instagram icon
-                  InkWell(
-                    onTap: (){
-                      _launchURL("www.instagram.com/harrisbasra");
-                    },
-                    child: CircleAvatar(
-                      radius: 15,
-                      backgroundColor: Colors.purple,
-                      child: Image.asset("assets/images/instagram.png", scale: 0.5,),
-                    ),
-                  ),
-
-                  SizedBox(width: 16),
-
-                  // Twitton
-                  CircleAvatar(
-                    radius: 15,
-                    backgroundColor: Color.fromRGBO(85, 172, 238, 1),
-                    child: Image.asset("assets/images/twitter.png", scale: 0.5,),
-                    // Icon(
-                    //   Icons.cancel_outlined,
-                    //   color: Colors.white,
-                    //   size: 20,
-                    // ),
-                  ),
-                  SizedBox(width: 16),
-
-                  // Phone icon
-                  CircleAvatar(
-                    radius: 15,
-                    backgroundColor: Colors.green,
-                    child: Icon(
-                      Icons.phone,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 15,),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(219, 188, 85, 1),
-                  //primary: Color.fromRGBO(0, 0, 0, 1),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                  minimumSize: Size(double.infinity, 45),
-                ),
-                onPressed: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CEOPage()),
-                  );
-                },
-                child: Text(
-                  'Message From CEO',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.account_box_sharp),
+              title: Text('Introduction'),
+              onTap: () {
+                // Add your logic for the "Contact Us" button here
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.monetization_on_rounded),
+              title: Text("View All Projects"),
+              onTap: () {
+                // Add your logic for the "CEO's Message" button here
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.info),
+              title: Text('About Us'),
+              onTap: () {
+                // Add your logic for the "About Us" button here
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.message),
+              title: Text("CEO's Message"),
+              onTap: () {
+                // Add your logic for the "CEO's Message" button here
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.group),
+              title: Text('Board of Governors'),
+              onTap: () {
+                // Add your logic for the "Board of Governors" button here
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.mail),
+              title: Text('Contact Us'),
+              onTap: () {
+                // Add your logic for the "Contact Us" button here
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onTap: () {
+                // Add your logic for the "Logout" button here
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+          ],
+        ),
+      ),
+        bottomNavigationBar: Container(
+          height: 70,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(29, 53, 87,1),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10), )
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () {},
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.home, size: 20, color: Colors.white,),
+                      Text('Main Page', style: TextStyle(color: Colors.white)),
+                    ],
                   ),
                 ),
-              ),
-              SizedBox(height: 10,),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(219, 188, 85, 1),
-                  //primary: Color.fromRGBO(0, 0, 0, 1),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                  minimumSize: Size(double.infinity, 45),
-                ),
-                onPressed: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => user_enters()),
-                  );
-                },
-                child: Text(
-                  'Contact Details',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => QuranApp()),
+                    );
+
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.book, size: 20, color: Colors.white,),
+                      Text('Read Quran', style: TextStyle(color: Colors.white)),
+                    ],
                   ),
                 ),
-              ),
-            ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ZakatCalculatorPage()),
+                    );
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.calculate, size: 20, color: Colors.white,),
+                      Text('Zakat', style: TextStyle(color: Colors.white)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      );
+    );
+  }
+  String getCurrentTime() {
+    DateTime now = DateTime.now();
+    String formattedTime = DateFormat('HH:mm').format(now);
+    return formattedTime;
+  }
+
+  String getHijriCalendarDate() {
+    HijriCalendar _today = HijriCalendar.now();
+
+    return "${_today.hDay} ${_today.longMonthName.toString()} ${_today.hYear}";
   }
 }
 
@@ -270,7 +426,7 @@ class ProjectCards extends StatelessWidget {
                 ),
                 CircleAvatar(
                   radius: 18,
-                  backgroundColor: Color(0xFF28AF8B), // RGB Color (40, 175, 139)
+                  backgroundColor: Color.fromRGBO(29, 53, 87,0.8), // RGB Color (40, 175, 139)
                   child: Icon(
                     Icons.arrow_forward,
                     color: Colors.white,
