@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UpdateProjectsPage extends StatelessWidget {
-  void _acceptUser(String userId) {
-
+  void _completeProject(String projectId) {
+    FirebaseFirestore.instance.collection("projects").doc(projectId).get().then((doc) {
+      if (doc.exists) {
+        FirebaseFirestore.instance.collection("pastProjects").doc(projectId).set(doc.data()!);
+        FirebaseFirestore.instance.collection("projects").doc(projectId).delete();
+      }
+    });
   }
 
-  void _denyUser(String userId) {
-
+  void _deleteProject(String projectId) {
+    FirebaseFirestore.instance.collection("projects").doc(projectId).delete();
   }
 
   @override
@@ -20,72 +25,50 @@ class UpdateProjectsPage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              UserRow(project: "Project 1", onAccept: () => _acceptUser("p1"), onDeny: () => _denyUser("p1"),),
-              UserRow(project: "Project 2", onAccept: () => _acceptUser("p1"), onDeny: () => _denyUser("p1"),),
-              UserRow(project: "Project 3", onAccept: () => _acceptUser("p1"), onDeny: () => _denyUser("p1"),),
-              UserRow(project: "Project 4", onAccept: () => _acceptUser("p1"), onDeny: () => _denyUser("p1"),),
-              UserRow(project: "Project 5", onAccept: () => _acceptUser("p1"), onDeny: () => _denyUser("p1"),),
-              UserRow(project: "Project 6", onAccept: () => _acceptUser("p1"), onDeny: () => _denyUser("p1"),),
-              UserRow(project: "Project 1", onAccept: () => _acceptUser("p1"), onDeny: () => _denyUser("p1"),),
-              UserRow(project: "Project 2", onAccept: () => _acceptUser("p1"), onDeny: () => _denyUser("p1"),),
-              UserRow(project: "Project 3", onAccept: () => _acceptUser("p1"), onDeny: () => _denyUser("p1"),),
-              UserRow(project: "Project 4", onAccept: () => _acceptUser("p1"), onDeny: () => _denyUser("p1"),),
-              UserRow(project: "Project 5", onAccept: () => _acceptUser("p1"), onDeny: () => _denyUser("p1"),),
-              UserRow(project: "Project 6", onAccept: () => _acceptUser("p1"), onDeny: () => _denyUser("p1"),),
-            ],
-          ),
-        ),
-      )
-      // StreamBuilder<QuerySnapshot>(
-      //   stream: FirebaseFirestore.instance.collection('users').where('valid', isEqualTo: false).snapshots(),
-      //   builder: (context, snapshot) {
-      //     if (!snapshot.hasData) {
-      //       return Center(
-      //         child: CircularProgressIndicator(),
-      //       );
-      //     }
-      //
-      //     List<User> userList = [];
-      //     snapshot.data!.docs.forEach((doc) {
-      //       userList.add(User(
-      //         id: doc.id,
-      //         name: doc['name'],
-      //         valid: doc['valid'],
-      //         email: doc['email'],
-      //         password: doc['password'],
-      //       ));
-      //     });
-      //
-      //     return ListView.builder(
-      //       itemCount: userList.length,
-      //       itemBuilder: (context, index) {
-      //         final user = userList[index];
-      //         return UserRow(
-      //           user: user,
-      //           onAccept: () => _acceptUser(user.id),
-      //           onDeny: () => _denyUser(user.id),
-      //         );
-      //       },
-      //     );
-      //   },
-      // ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection("projects").snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text("Error: ${snapshot.error}");
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+
+          final projects = snapshot.data?.docs ?? [];
+
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: projects.map((project) {
+                  final projectId = project.id;
+                  final projectData = project.data() as Map<String, dynamic>?; // Add the type cast here
+
+                  final projectName = projectData?['projectName'] as String?; // Add the type cast here
+
+                  return ProjectRow(
+                    project: projectName ?? 'Unknown Project', // Provide a default value in case projectName is null
+                    onAccept: () => _completeProject(projectId),
+                    onDeny: () => _deleteProject(projectId),
+                  );
+                }).toList(),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
 
-
-
-class UserRow extends StatelessWidget {
+class ProjectRow extends StatelessWidget {
   final String project;
   final void Function() onAccept;
   final void Function() onDeny;
 
-  UserRow({required this.project, required this.onAccept, required this.onDeny});
+  ProjectRow({required this.project, required this.onAccept, required this.onDeny});
 
   @override
   Widget build(BuildContext context) {
@@ -98,28 +81,25 @@ class UserRow extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(5),
               child: Container(
-                    child: Row(
-                      children: [
-                        Text(project, style: TextStyle(fontSize: 20),),
-                        Expanded(child: SizedBox(width: 10,)),
-                        IconButton(
-                          icon: Icon(Icons.check),
-                          onPressed: onAccept,
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.clear),
-                          onPressed: onDeny,
-                        ),
-                    ],
-                  ),
-                )
+                child: Row(
+                  children: [
+                    Text(project, style: TextStyle(fontSize: 20),),
+                    Expanded(child: SizedBox(width: 10,)),
+                    IconButton(
+                      icon: Icon(Icons.check),
+                      onPressed: onAccept,
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.clear),
+                      onPressed: onDeny,
+                    ),
+                  ],
+                ),
               ),
-           // Divider(height: 10, thickness: 2),
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-

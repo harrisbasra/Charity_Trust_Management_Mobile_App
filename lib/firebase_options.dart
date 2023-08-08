@@ -48,9 +48,9 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyDEK2uUjD0LL-ZdW_Uisv3a0hsfp-go9zI',
     appId: '1:35232307782:android:9d38f91f1868437eee8847',
     messagingSenderId: '603248941877',
-    projectId: 'netikash-live',
-    authDomain: 'netikash-live.firebaseapp.com',
-    storageBucket: 'netikash-live.appspot.com',
+    authDomain: 'juft-f904f.firebaseapp.com',
+    projectId: 'juft-f904f',
+    storageBucket: 'juft-f904f.appspot.com',
     measurementId: 'G-NLTNJPKT3S',
   );
 

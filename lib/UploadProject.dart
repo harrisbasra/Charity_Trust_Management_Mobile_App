@@ -1,9 +1,5 @@
-import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Add_Project extends StatefulWidget {
   @override
@@ -11,14 +7,54 @@ class Add_Project extends StatefulWidget {
 }
 
 class _AddProjectState extends State<Add_Project> {
-  List<File> _selectedImages = [];
+  final _projectNameController = TextEditingController();
+  final _projectPriceController = TextEditingController();
+  final _alreadyCollectedController = TextEditingController();
+  final _projectDescriptionController = TextEditingController();
+  final _projectDateLocationController = TextEditingController();
+  final _projectImageLinkController = TextEditingController();
+
+  @override
+  void dispose() {
+    _projectNameController.dispose();
+    _projectPriceController.dispose();
+    _alreadyCollectedController.dispose();
+    _projectDescriptionController.dispose();
+    _projectDateLocationController.dispose();
+    _projectImageLinkController.dispose();
+    super.dispose();
+  }
+
+  void _uploadDataToFirestore() async {
+    final firestore = FirebaseFirestore.instance;
+
+    // Get data from text fields
+    final projectName = _projectNameController.text;
+    final projectPrice = _projectPriceController.text;
+    final alreadyCollected = _alreadyCollectedController.text;
+    final projectDescription = _projectDescriptionController.text;
+    final projectDateLocation = _projectDateLocationController.text;
+    final projectImageLink = _projectImageLinkController.text;
+
+    // Save data to Firestore
+    await firestore.collection('projects').add({
+      'projectName': projectName,
+      'projectPrice': projectPrice,
+      'alreadyCollected': alreadyCollected,
+      'projectDescription': projectDescription,
+      'projectDateLocation': projectDateLocation,
+      'projectImageLink': projectImageLink,
+    });
+
+    // Show a success message or navigate to a new screen, etc.
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Upload Product',
+          'Upload Project',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -30,253 +66,223 @@ class _AddProjectState extends State<Add_Project> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16),
-                child: Text(
-                  "Add Project Name : ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                ),
-              ),
-              SizedBox(height: 10,),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0,right: 10.0),
-                child: TextField(
-                  onTap: () {
-
-                  },
-                  style: TextStyle(color: Colors.black),
-
-                  decoration: InputDecoration(
-                  //  hintText: 'Enter Project Name',
-                    filled: true,
-                    fillColor: Colors.white38, // Background color
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16,),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16),
-                child: Text(
-                  "Add Project Price : ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                ),
-              ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0,right: 10.0),
-                child: TextField(
-                  onTap: () {
-
-                  },
-                  style: TextStyle(color: Colors.black),
-                  decoration: InputDecoration(
-                   // hintText: 'Enter Project Price',
-                    filled: true,
-                    prefixText: "Rs. ",
-                    fillColor: Colors.white38, // Background color
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16,),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16),
-                child: Text(
-                  "Add Already Collected Price (If Any) : ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                ),
-              ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0,right: 10.0),
-                child: TextField(
-                  onTap: () {
-
-                  },
-                  style: TextStyle(color: Colors.black),
-                  decoration: InputDecoration(
-                   // hintText: 'Enter Already Raised Amount',
-                    filled: true,
-                    prefixText: "Rs. ",
-                    fillColor: Colors.white38, // Background color
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16,),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16),
-                child: Text(
-                  "Add Project Description : ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                ),
-              ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0,right: 10.0),
-                child: TextField(
-                  onTap: () {
-
-                  },
-                  style: TextStyle(color: Colors.black),
-                  decoration: InputDecoration(
-                    filled: true,
-                    prefixText: "This Project is based on ",
-                    fillColor: Colors.white38, // Background color
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16,),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16),
-                child: Text(
-                  "Add Project Date & Location : ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                ),
-              ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0,right: 10.0),
-                child: TextField(
-                  onTap: () {
-
-                  },
-                  style: TextStyle(color: Colors.black),
-                  decoration: InputDecoration(
-                //    hintText: 'Enter Start Date',
-                    filled: true,
-                    fillColor: Colors.white38, // Background color
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16),
-                child: Text(
-                  'Selected Images:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: _selectedImages.map((image) {
-                  return SizedBox(
-                    width: 80,
-                    height: 80,
-                    child: Image.file(image, fit: BoxFit.cover),
-                  );
-                }).toList(),
-              ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16),
-                child:ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color.fromRGBO(40, 175, 139, 1),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 20.0),
-                    minimumSize: Size(double.infinity, 45),
-                  ),
-                  onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => user_enters()),
-                    // );
-                  },
+        child: Column(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16),
                   child: Text(
-                    'Upload Images',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
+                    "Add Project Name : ",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                  child: TextField(
+                    controller: _projectNameController,
+                    onTap: () {},
+                    style: TextStyle(color: Colors.black),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white38, // Background color
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 16),
-
-            ],
-          ),
-          SizedBox(height: 30,),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: Size.fromHeight(70),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
+                SizedBox(height: 16,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16),
+                  child: Text(
+                    "Add Project Price : ",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                  child: TextField(
+                    controller: _projectPriceController,
+                    onTap: () {},
+                    style: TextStyle(color: Colors.black),
+                    decoration: InputDecoration(
+                      filled: true,
+                      prefixText: "Rs. ",
+                      fillColor: Colors.white38, // Background color
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
                     ),
                   ),
-                  child: Text('Cancel', style: TextStyle(fontSize: 20, color: Colors.black),),
                 ),
-              ),
-
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-
-                  },
-                  style: ElevatedButton.styleFrom(
+                SizedBox(height: 16,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16),
+                  child: Text(
+                    "Add Already Collected Price (If Any) : ",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                  child: TextField(
+                    controller: _alreadyCollectedController,
+                    onTap: () {},
+                    style: TextStyle(color: Colors.black),
+                    decoration: InputDecoration(
+                      filled: true,
+                      prefixText: "Rs. ",
+                      fillColor: Colors.white38, // Background color
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16),
+                  child: Text(
+                    "Add Project Description : ",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                  child: TextField(
+                    controller: _projectDescriptionController,
+                    onTap: () {},
+                    style: TextStyle(color: Colors.black),
+                    decoration: InputDecoration(
+                      filled: true,
+                      prefixText: "This Project is based on ",
+                      fillColor: Colors.white38, // Background color
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16),
+                  child: Text(
+                    "Add Project Date & Location : ",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                  child: TextField(
+                    controller: _projectDateLocationController,
+                    onTap: () {},
+                    style: TextStyle(color: Colors.black),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white38, // Background color
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16),
+                  child: Text(
+                    "Add Project Image Link ",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                  child: TextField(
+                    controller: _projectImageLinkController,
+                    onTap: () {},
+                    style: TextStyle(color: Colors.black),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white38, // Background color
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16),
+              ],
+            ),
+            SizedBox(height: 30,),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Add functionality for the "Cancel" button if needed.
+                    },
+                    style: ElevatedButton.styleFrom(
                       fixedSize: Size.fromHeight(70),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0), // Set the borderRadius to 0 for rectangle shape
+                        borderRadius: BorderRadius.circular(0),
                       ),
-                      primary: Color.fromRGBO(219, 185, 88, 1)
+                    ),
+                    child: Text('Cancel', style: TextStyle(fontSize: 20, color: Colors.black),),
                   ),
-                  child: Text('Upload', style: TextStyle(fontSize: 20, color: Colors.white),),
                 ),
-              ),
-            ],
-          ),],
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: _uploadDataToFirestore,
+                    style: ElevatedButton.styleFrom(
+                        fixedSize: Size.fromHeight(70),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0), // Set the borderRadius to 0 for rectangle shape
+                        ),
+                        primary: Color.fromRGBO(219, 185, 88, 1)
+                    ),
+                    child: Text('Upload', style: TextStyle(fontSize: 20, color: Colors.white),),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

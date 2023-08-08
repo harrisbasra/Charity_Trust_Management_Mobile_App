@@ -1,14 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:test/ShowAudits.dart';
 import 'package:test/zakatcalculator.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import 'HijriCalendarPage.dart';
-import 'MessageFromCEO.dart';
 import 'package:intl/intl.dart';
 import 'package:hijri/hijri_calendar.dart';
-
 import 'Prayer_times.dart';
 import 'Quran.dart';
 
@@ -117,20 +114,40 @@ class user_enters  extends StatelessWidget {
                       child: Container(
                         color: Color.fromRGBO(0, 0, 0, 0.3),
                         height: 260,
-                        child: SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
-                                ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
-                                ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
-                                ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
-                                ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
-                                ProjectCards(name: "p1", raisedAmount: "100", totalAmount: "200"),
-                              ],
-                            ),
-                          ),
+                        child: FutureBuilder<List<Project>>(
+                          future: fetchProjectsFromDatabase(), // Fetch the projects from the database
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Center(
+                                child: Text('Error fetching projects'),
+                              );
+                            } else if (!snapshot.hasData) {
+                              return Center(
+                                child: Text('No projects available'),
+                              );
+                            } else {
+                              final projects = snapshot.data!;
+                              return SingleChildScrollView(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      for (var project in projects)
+                                        ProjectCards(
+                                          name: project.name,
+                                          raisedAmount: project.raisedAmount,
+                                          totalAmount: project.totalAmount,
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+                          },
                         ),
                       ),
                     ),
@@ -369,6 +386,26 @@ class user_enters  extends StatelessWidget {
 
     return "${_today.hDay} ${_today.longMonthName.toString()} ${_today.hYear}";
   }
+  Future<List<Project>> fetchProjectsFromDatabase() async {
+    // Replace this with your database fetching logic
+    // For example, if you're using Firebase Firestore:
+    final snapshot = await FirebaseFirestore.instance.collection('projects').get();
+    final projectsData = snapshot.docs.map((doc) => doc.data()).toList();
+
+    // Mock data for demonstration
+    // final projectsData = [
+    //   {"name": "Project 1", "raisedAmount": "100", "totalAmount": "200"},
+    //   {"name": "Project 2", "raisedAmount": "150", "totalAmount": "300"},
+    //   // Add more projects data here
+    // ];
+
+
+    return projectsData.map((data) => Project(
+      name: data['projectName'].toString(),
+      raisedAmount: data['alreadyCollected'].toString(),
+      totalAmount: data['projectPrice'].toString(),
+    )).toList();
+  }
 }
 
 
@@ -401,6 +438,9 @@ class ProjectCards extends StatelessWidget {
                   children: [
                     Text(
                       name,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: true,
+                      maxLines: 1,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
@@ -441,12 +481,17 @@ class ProjectCards extends StatelessWidget {
     );
   }
 
+
+
 }
-void _launchURL(String url) async {
-  Uri uri = Uri.parse(url);
-  if (await canLaunchUrl(uri)) {
-    await launchUrl(uri);
-  } else {
-    throw 'Could not launch $url';
-  }
+class Project {
+  final String name;
+  final String raisedAmount;
+  final String totalAmount;
+
+  Project({
+    required this.name,
+    required this.raisedAmount,
+    required this.totalAmount,
+  });
 }

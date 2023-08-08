@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
 
 class ShowAudits extends StatefulWidget {
   @override
@@ -11,7 +9,7 @@ class ShowAudits extends StatefulWidget {
 
 class _MyShowAuditsState extends State<ShowAudits> {
   PageController _pageController = PageController(initialPage: 0);
-  DatabaseReference _databaseReference = FirebaseDatabase.instance.reference();
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +20,9 @@ class _MyShowAuditsState extends State<ShowAudits> {
       body: PageView(
         controller: _pageController,
         children: [
-          SectionPage(sectionName: "Grocery", node: "grocery", databaseReference: _databaseReference),
-          SectionPage(sectionName: "Stationary", node: "stationary", databaseReference: _databaseReference),
-          SectionPage(sectionName: "Students", node: "students", databaseReference: _databaseReference),
+          SectionPage(sectionName: "Grocery", collection: "grocery", firestore: _firestore),
+          SectionPage(sectionName: "Stationary", collection: "stationary", firestore: _firestore),
+          SectionPage(sectionName: "Students", collection: "students", firestore: _firestore),
         ],
       ),
       bottomNavigationBar: Row(
@@ -56,13 +54,13 @@ class _MyShowAuditsState extends State<ShowAudits> {
 
 class SectionPage extends StatefulWidget {
   final String sectionName;
-  final String node;
-  final DatabaseReference databaseReference;
+  final String collection;
+  final FirebaseFirestore firestore;
 
   SectionPage({
     required this.sectionName,
-    required this.node,
-    required this.databaseReference,
+    required this.collection,
+    required this.firestore,
   });
 
   @override
@@ -75,19 +73,18 @@ class _SectionPageState extends State<SectionPage> {
   @override
   void initState() {
     super.initState();
-    _loadImagesFromFirebase();
+    _loadImagesFromFirestore();
   }
 
-  void _loadImagesFromFirebase() {
-    widget.databaseReference.child(widget.node).onValue.listen((event) {
-      DataSnapshot snapshot = event.snapshot;
-      Iterable<dynamic> values = snapshot.value as Iterable<dynamic>;
+  void _loadImagesFromFirestore() async {
+    try {
+      QuerySnapshot snapshot = await widget.firestore.collection(widget.collection).get();
       setState(() {
-        imageUrls = List<String>.from(values.map((item) => item.toString()));
+        imageUrls = snapshot.docs.map((doc) => doc.get('link').toString()).toList();
       });
-    }, onError: (error) {
+    } catch (error) {
       print("Error loading images: $error");
-    });
+    }
   }
 
   @override

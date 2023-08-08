@@ -11,38 +11,28 @@ class _UpdateAuditState extends State<Update_Audits> {
   TextEditingController _stationaryLinkController = TextEditingController();
   TextEditingController _studentsLinkController = TextEditingController();
 
-  void _saveLinksToFirebase() async {
-    String groceryLink = _groceryLinkController.text.trim();
-    String stationaryLink = _stationaryLinkController.text.trim();
-    String studentsLink = _studentsLinkController.text.trim();
+  void _saveLinksToFirebase() {
+    final groceryLink = _groceryLinkController.text.trim();
+    final stationaryLink = _stationaryLinkController.text.trim();
+    final studentsLink = _studentsLinkController.text.trim();
 
     if (groceryLink.isNotEmpty) {
-      await _updateDatabase(groceryLink, "grocery");
+      FirebaseFirestore.instance.collection('grocery').add({
+        'link': groceryLink,
+      });
     }
 
     if (stationaryLink.isNotEmpty) {
-      await _updateDatabase(stationaryLink, "stationary");
+      FirebaseFirestore.instance.collection('stationary').add({
+        'link': stationaryLink,
+      });
     }
 
     if (studentsLink.isNotEmpty) {
-      await _updateDatabase(studentsLink, "students");
+      FirebaseFirestore.instance.collection('students').add({
+        'link': studentsLink,
+      });
     }
-
-    // Clear the text fields after saving
-    _groceryLinkController.clear();
-    _stationaryLinkController.clear();
-    _studentsLinkController.clear();
-
-    // Show a success message or perform any other action after saving the links
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Links saved successfully!'),
-      backgroundColor: Colors.green,
-    ));
-  }
-
-  Future<void> _updateDatabase(String link, String category) async {
-    final CollectionReference collectionRef = FirebaseFirestore.instance.collection(category);
-    await collectionRef.add({'url': link});
   }
 
   @override
@@ -77,11 +67,25 @@ class _UpdateAuditState extends State<Update_Audits> {
                 ),
                 SizedBox(height: 8),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.only(left: 10.0,right: 10.0),
                   child: TextField(
+                    onTap: () {
+
+                    },
                     controller: _groceryLinkController,
+                    style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
-                      hintText: 'Enter the link of grocery images',
+                      hintText: 'Enter Grocery Image Link',
+                      filled: true,
+                      fillColor: Colors.white38, // Background color
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
                     ),
                   ),
                 ),
@@ -97,11 +101,25 @@ class _UpdateAuditState extends State<Update_Audits> {
                 ),
                 SizedBox(height: 8),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.only(left: 10.0,right: 10.0),
                   child: TextField(
+                    onTap: () {
+
+                    },
                     controller: _stationaryLinkController,
+                    style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
-                      hintText: 'Enter the link of stationary images',
+                      hintText: 'Enter Stationary Image Link',
+                      filled: true,
+                      fillColor: Colors.white38, // Background color
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
                     ),
                   ),
                 ),
@@ -117,11 +135,25 @@ class _UpdateAuditState extends State<Update_Audits> {
                 ),
                 SizedBox(height: 8),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.only(left: 10.0,right: 10.0),
                   child: TextField(
+                    onTap: () {
+
+                    },
                     controller: _studentsLinkController,
+                    style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
-                      hintText: 'Enter the link of students list images',
+                      hintText: 'Enter Student List Image Link',
+                      filled: true,
+                      fillColor: Colors.white38, // Background color
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
                     ),
                   ),
                 ),
@@ -150,7 +182,7 @@ class _UpdateAuditState extends State<Update_Audits> {
           ),
           Expanded(
             child: ElevatedButton(
-              onPressed: _saveLinksToFirebase,
+              onPressed:_saveLinksToFirebase,
               style: ElevatedButton.styleFrom(
                 fixedSize: Size.fromHeight(70),
                 shape: RoundedRectangleBorder(
