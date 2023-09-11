@@ -7,6 +7,8 @@ import 'HijriCalendarPage.dart';
 import 'package:intl/intl.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'Prayer_times.dart';
+import 'ProductPage.dart';
+import 'ProjectPage.dart';
 import 'Quran.dart';
 
 
@@ -141,6 +143,7 @@ class user_enters  extends StatelessWidget {
                                           name: project.name,
                                           raisedAmount: project.raisedAmount,
                                           totalAmount: project.totalAmount,
+                                          des: project.description,
                                         ),
                                     ],
                                   ),
@@ -387,23 +390,16 @@ class user_enters  extends StatelessWidget {
     return "${_today.hDay} ${_today.longMonthName.toString()} ${_today.hYear}";
   }
   Future<List<Project>> fetchProjectsFromDatabase() async {
-    // Replace this with your database fetching logic
-    // For example, if you're using Firebase Firestore:
+
     final snapshot = await FirebaseFirestore.instance.collection('projects').get();
     final projectsData = snapshot.docs.map((doc) => doc.data()).toList();
-
-    // Mock data for demonstration
-    // final projectsData = [
-    //   {"name": "Project 1", "raisedAmount": "100", "totalAmount": "200"},
-    //   {"name": "Project 2", "raisedAmount": "150", "totalAmount": "300"},
-    //   // Add more projects data here
-    // ];
 
 
     return projectsData.map((data) => Project(
       name: data['projectName'].toString(),
       raisedAmount: data['alreadyCollected'].toString(),
       totalAmount: data['projectPrice'].toString(),
+      description : data['projectDescription'].toString(),
     )).toList();
   }
 }
@@ -414,11 +410,13 @@ class ProjectCards extends StatelessWidget {
   final String name;
   final String raisedAmount;
   final String totalAmount;
+  final String des;
 
   ProjectCards({
     required this.name,
     required this.raisedAmount,
     required this.totalAmount,
+    required this.des,
   });
 
   @override
@@ -449,14 +447,14 @@ class ProjectCards extends StatelessWidget {
                     ),
                     SizedBox(height: 8),
                     Text(
-                      'Raised: ${raisedAmount} PKR',
+                      '${raisedAmount}',
                       style: TextStyle(
                         fontSize: 10,
                         color: Color(0xFF28AF8B), // RGB Color (40, 175, 139)
                       ),
                     ),
                     Text(
-                      'Total: ${totalAmount} PKR',
+                      '${totalAmount}',
                       style: TextStyle(
                         fontSize: 10,
                         color: Colors.black,
@@ -464,12 +462,22 @@ class ProjectCards extends StatelessWidget {
                     ),
                   ],
                 ),
-                CircleAvatar(
-                  radius: 18,
-                  backgroundColor: Color.fromRGBO(29, 53, 87,0.8), // RGB Color (40, 175, 139)
-                  child: Icon(
-                    Icons.arrow_forward,
-                    color: Colors.white,
+                InkWell(
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProjectPageX(Name: name, Raised: raisedAmount, Total: totalAmount, des: des), // Pass documentID to BookPage
+                      ),
+                    );
+                  },
+                  child: CircleAvatar(
+                    radius: 18,
+                    backgroundColor: Color.fromRGBO(29, 53, 87,0.8), // RGB Color (40, 175, 139)
+                    child: Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
@@ -488,10 +496,12 @@ class Project {
   final String name;
   final String raisedAmount;
   final String totalAmount;
+  final String description;
 
   Project({
     required this.name,
     required this.raisedAmount,
     required this.totalAmount,
+    required this.description,
   });
 }

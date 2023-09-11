@@ -23,6 +23,8 @@ dependencies:
   jhijri_picker: ^1.0.0
   quran: 1.2.2
   cached_network_image: ^3.0.0
+  firebase_messaging: ^14.6.6
+  clipboard_listener: ^2.0.0
 
 
 dev_dependencies:

@@ -14,39 +14,48 @@ class _MyShowAuditsState extends State<ShowAudits> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Swipe Page'),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: PageView(
+          controller: _pageController,
+          children:
+          [
+            SectionPage(sectionName: "Grocery", collection: "grocery", firestore: _firestore),
+            SectionPage(sectionName: "Stationary", collection: "stationary", firestore: _firestore),
+            SectionPage(sectionName: "Students", collection: "students", firestore: _firestore),
+          ],
+        ),
       ),
-      body: PageView(
-        controller: _pageController,
-        children: [
-          SectionPage(sectionName: "Grocery", collection: "grocery", firestore: _firestore),
-          SectionPage(sectionName: "Stationary", collection: "stationary", firestore: _firestore),
-          SectionPage(sectionName: "Students", collection: "students", firestore: _firestore),
-        ],
-      ),
-      bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              _pageController.previousPage(
-                duration: Duration(milliseconds: 500),
-                curve: Curves.easeInOut,
-              );
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.arrow_forward),
-            onPressed: () {
-              _pageController.nextPage(
-                duration: Duration(milliseconds: 500),
-                curve: Curves.easeInOut,
-              );
-            },
-          ),
-        ],
+      bottomNavigationBar: Container(
+        height: 100,
+        child: Column(
+          children: [
+            Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.arrow_back, size: 30,),
+                  onPressed: () {
+                    _pageController.previousPage(
+                      duration: Duration(milliseconds: 100),
+                      curve: Curves.easeInOut,
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.arrow_forward, size: 30,),
+                  onPressed: () {
+                    _pageController.nextPage(
+                      duration: Duration(milliseconds: 100),
+                      curve: Curves.easeInOut,
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

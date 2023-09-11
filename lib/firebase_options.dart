@@ -69,7 +69,7 @@ class DefaultFirebaseOptions {
     projectId: 'juft-f904f',
     storageBucket: 'juft-f904f.appspot.com',
     iosClientId: '603248941877-kna3fsu407ta54cqgh0baho11n6dntgb.apps.googleusercontent.com',
-    iosBundleId: 'com.example.test',
+    iosBundleId: 'com.trust.juft',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -79,6 +79,6 @@ class DefaultFirebaseOptions {
     projectId: 'netikash-live',
     storageBucket: 'netikash-live.appspot.com',
     iosClientId: '603248941877-kna3fsu407ta54cqgh0baho11n6dntgb.apps.googleusercontent.com',
-    iosBundleId: 'com.example.test',
+    iosBundleId: 'com.trust.juft',
   );
 }

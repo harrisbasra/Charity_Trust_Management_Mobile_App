@@ -1,34 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore package
 
 import 'admin_enters.dart';
 
-class admin_page extends StatelessWidget{
+class admin_page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final TextEditingController Password = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
     return Scaffold(
-      appBar:AppBar(
+      appBar: AppBar(
         title: Text('Verification'),
-        actions: [
-
-        ],
+        actions: [],
       ),
       body: Column(
         children: [
           SizedBox(height: 40,),
           const Padding(
-            padding: EdgeInsets.only(left: 15.0,right: 10.0),
-            child: Align( alignment: Alignment.centerLeft, child: Text('Enter PassCode: ', style: TextStyle(fontSize: 20), textAlign: TextAlign.left,)),
+            padding: EdgeInsets.only(left: 15.0, right: 10.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Enter PassCode: ',
+                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.left,
+              ),
+            ),
           ),
           SizedBox(height: 15,),
           Padding(
-            padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
             child: TextField(
-              onTap: () {
-
-              },
-              controller: Password,
+              onTap: () {},
+              controller: passwordController,
               style: TextStyle(color: Colors.black),
               enableInteractiveSelection: false,
               obscureText: true,
@@ -59,14 +63,16 @@ class admin_page extends StatelessWidget{
                 padding: EdgeInsets.symmetric(horizontal: 20.0),
                 minimumSize: Size(double.infinity, 45),
               ),
-              onPressed: (){
-                if(Password.text=="ABC"){
+              onPressed: () async {
+                final passDoc = await FirebaseFirestore.instance.collection('auth').doc('aVvbYvl1inzv0vZDFvAT').get(); // Replace 'your_document_id' with the actual document ID
+                final storedPassword = passDoc['pass'] as String;
+
+                if (passwordController.text == storedPassword) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => admin_enters()),
                   );
-                }
-                else{
+                } else {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text("Invalid Password"),
                   ));
@@ -86,5 +92,4 @@ class admin_page extends StatelessWidget{
       ),
     );
   }
-
 }
