@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:test/MessageFromCEO.dart';
 import 'package:test/ShowAudits.dart';
+import 'package:test/Sponsor_A_Child.dart';
+import 'package:test/splash_screen00.dart';
 import 'package:test/zakatcalculator.dart';
 import 'HijriCalendarPage.dart';
 import 'package:intl/intl.dart';
@@ -15,16 +17,16 @@ import 'Quran.dart';
 class user_enters  extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
-        key:_scaffoldKey,
+        key:scaffoldKey,
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
             children: [
               Container(
                 height: 300,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/images/masjid.png'),
                     fit: BoxFit.cover,
@@ -45,12 +47,26 @@ class user_enters  extends StatelessWidget {
                             ),
                             child: InkWell(
                               onTap: () {
-                                _scaffoldKey.currentState!.openDrawer();
+                                scaffoldKey.currentState!.openDrawer();
                               },
-                              child: Icon(Icons.menu),
+                              child: const Icon(Icons.menu),
                             ),
                           ),
                         ),
+                        const Expanded(child: SizedBox(width: 10)),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(top: 50, right: 20),
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //       color: const Color.fromRGBO(185, 152, 121, 1),
+                        //       borderRadius: BorderRadius.circular(20),
+                        //     ),
+                        //     child: const Padding(
+                        //       padding: EdgeInsets.all(10.0),
+                        //       child: Text("Sponsor a child", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                     Expanded(
@@ -66,19 +82,19 @@ class user_enters  extends StatelessWidget {
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Text(
                                   getCurrentTime(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 40,
                                     fontWeight: FontWeight.w900,
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Text(
                                   getHijriCalendarDate(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -99,9 +115,9 @@ class user_enters  extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Column(
                   children: [
-                    SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                    const SizedBox(height: 20),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 8.0),
                       child: Align(
                           alignment: Alignment.center,
                           child: Text("PROJECTS",
@@ -110,25 +126,25 @@ class user_enters  extends StatelessWidget {
                           )
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Container(
-                        color: Color.fromRGBO(0, 0, 0, 0.3),
+                        color: const Color.fromRGBO(0, 0, 0, 0.3),
                         height: 260,
                         child: FutureBuilder<List<Project>>(
                           future: fetchProjectsFromDatabase(), // Fetch the projects from the database
                           builder: (context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {
-                              return Center(
+                              return const Center(
                                 child: CircularProgressIndicator(),
                               );
                             } else if (snapshot.hasError) {
-                              return Center(
+                              return const Center(
                                 child: Text('Error fetching projects'),
                               );
                             } else if (!snapshot.hasData) {
-                              return Center(
+                              return const Center(
                                 child: Text('No projects available'),
                               );
                             } else {
@@ -154,9 +170,9 @@ class user_enters  extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 15,),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                    const SizedBox(height: 15,),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 8.0),
                       child: Align(
                           //alignment: Alignment.center,
                           child: Text("ACCESSORIES",
@@ -165,14 +181,14 @@ class user_enters  extends StatelessWidget {
                           )
                       ),
                     ),
-                    SizedBox(height: 15,),
+                    const SizedBox(height: 15,),
                     Row(
                       children: [
                         Expanded(
                           child: Container(
                             height: 60,
                             decoration: BoxDecoration(
-                              color: Color.fromRGBO(129, 58, 50,0.8),
+                              color: const Color.fromRGBO(129, 58, 50,0.8),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: TextButton(
@@ -182,19 +198,19 @@ class user_enters  extends StatelessWidget {
                                   MaterialPageRoute(builder: (context) => ShowAudits()),
                                 );
                               },
-                              child: Text(
+                              child: const Text(
                                 "Audits",
                                 style: TextStyle(color: Colors.white, fontSize: 15),
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Expanded(
                           child: Container(
                             height: 60,
                             decoration: BoxDecoration(
-                              color: Color.fromRGBO(129, 58, 50,0.8),
+                              color: const Color.fromRGBO(129, 58, 50,0.8),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: TextButton(
@@ -204,19 +220,19 @@ class user_enters  extends StatelessWidget {
                                   MaterialPageRoute(builder: (context) => NamazTimesPage()),
                                 );
                               },
-                              child: Text(
+                              child: const Text(
                                 "Prayers",
                                 style: TextStyle(color: Colors.white, fontSize: 15),
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Expanded(
                           child: Container(
                             height: 60,
                             decoration: BoxDecoration(
-                              color: Color.fromRGBO(129, 58, 50,0.8),
+                              color: const Color.fromRGBO(129, 58, 50,0.8),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: TextButton(
@@ -226,7 +242,7 @@ class user_enters  extends StatelessWidget {
                                   MaterialPageRoute(builder: (context) => HijriCalender()),
                                 );
                               },
-                              child: Text(
+                              child: const Text(
                                 "Calender",
                                 style: TextStyle(color: Colors.white, fontSize: 15),
                               ),
@@ -235,7 +251,7 @@ class user_enters  extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 15,),
+                    const SizedBox(height: 15,),
 
                   ],
                 ),
@@ -247,9 +263,9 @@ class user_enters  extends StatelessWidget {
         width: 280,
         child: Column(
           children: [
-            SizedBox(height: 30,),
+            const SizedBox(height: 30,),
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               color: Colors.white, // You can set your desired color here
               child:  Center(
                 child: Image.asset(
@@ -262,7 +278,7 @@ class user_enters  extends StatelessWidget {
             Divider(),
             ListTile(
               leading: Icon(Icons.account_box_sharp),
-              title: Text('Introduction'),
+              title: const Text('Introduction'),
               onTap: () {
                 // Add your logic for the "Contact Us" button here
                 Navigator.pop(context); // Close the drawer
@@ -270,35 +286,17 @@ class user_enters  extends StatelessWidget {
             ),
             Divider(),
             ListTile(
-              leading: Icon(Icons.monetization_on_rounded),
-              title: Text("View All Projects"),
-              onTap: () {
-                // Add your logic for the "CEO's Message" button here
-                Navigator.pop(context); // Close the drawer
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.info),
-              title: Text('About Us'),
-              onTap: () {
-                // Add your logic for the "About Us" button here
-                Navigator.pop(context); // Close the drawer
-              },
-            ),
-            ListTile(
               leading: Icon(Icons.message),
               title: Text("CEO's Message"),
               onTap: () {
-                // Add your logic for the "CEO's Message" button here
-                Navigator.pop(context); // Close the drawer
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>CEOPage()));
               },
             ),
             ListTile(
               leading: Icon(Icons.group),
-              title: Text('Board of Governors'),
+              title: Text('Sponsor a Child'),
               onTap: () {
-                // Add your logic for the "Board of Governors" button here
-                Navigator.pop(context); // Close the drawer
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>SponsorAChild()));
               },
             ),
             ListTile(
@@ -314,8 +312,7 @@ class user_enters  extends StatelessWidget {
               leading: Icon(Icons.logout),
               title: Text('Logout'),
               onTap: () {
-                // Add your logic for the "Logout" button here
-                Navigator.pop(context); // Close the drawer
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>SplashScreen()));
               },
             ),
           ],
@@ -349,7 +346,7 @@ class user_enters  extends StatelessWidget {
                     );
 
                   },
-                  child: Column(
+                  child: const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.book, size: 20, color: Colors.white,),
@@ -364,7 +361,7 @@ class user_enters  extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => ZakatCalculatorPage()),
                     );
                   },
-                  child: Column(
+                  child: const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.calculate, size: 20, color: Colors.white,),
@@ -439,23 +436,23 @@ class ProjectCards extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       softWrap: true,
                       maxLines: 1,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
-                      '${raisedAmount}',
-                      style: TextStyle(
+                      raisedAmount,
+                      style: const TextStyle(
                         fontSize: 10,
                         color: Color(0xFF28AF8B), // RGB Color (40, 175, 139)
                       ),
                     ),
                     Text(
-                      '${totalAmount}',
-                      style: TextStyle(
+                      totalAmount,
+                      style: const TextStyle(
                         fontSize: 10,
                         color: Colors.black,
                       ),
@@ -467,11 +464,11 @@ class ProjectCards extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ProjectPageX(Name: name, Raised: raisedAmount, Total: totalAmount, des: des), // Pass documentID to BookPage
+                        builder: (context) => ProjectPageX(name: name, raised: raisedAmount, total: totalAmount, des: des), // Pass documentID to BookPage
                       ),
                     );
                   },
-                  child: CircleAvatar(
+                  child: const CircleAvatar(
                     radius: 18,
                     backgroundColor: Color.fromRGBO(29, 53, 87,0.8), // RGB Color (40, 175, 139)
                     child: Icon(
@@ -484,7 +481,7 @@ class ProjectCards extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 10,)
+        const SizedBox(height: 10,)
       ],
     );
   }

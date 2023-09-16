@@ -3,16 +3,29 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:test/Bank_Page.dart';
 
 class ProjectPageX extends StatelessWidget {
-  final String Name;
-  final String Raised;
-  final String Total;
+  final String name;
+  final String raised;
+  final String total;
   final String des;
 
 
-  ProjectPageX({required this.Name, required this.Raised, required this.Total, required this.des});
+  ProjectPageX({required this.name, required this.raised, required this.total, required this.des});
 
   @override
   Widget build(BuildContext context) {
+    String imagePath = 'assets/images/img.png'; // Default image path
+    bool surbex = false;
+    if (name == "Al Jannat Home") {
+      imagePath = 'assets/images/csr.jpg';
+      surbex = true;
+    } else if (name == "Apna Rozgar Scheme") {
+      imagePath = 'assets/images/bhk.jpg';
+      surbex = true;
+    } else if (name == "Disaster Relief") {
+      imagePath = 'assets/images/uaq.jpg';
+      surbex = true;
+    }
+
     return Scaffold(
         body: Column(
           children: [
@@ -23,18 +36,18 @@ class ProjectPageX extends StatelessWidget {
                       .of(context)
                       .size
                       .height / 2,
-                  color: Color.fromRGBO(255, 255, 255, 1.0),
+                  color: const Color.fromRGBO(255, 255, 255, 1.0),
                 ),
                 Positioned.fill(
-                  top: MediaQuery
-                      .of(context)
-                      .size
-                      .height / 10,
+                  // top: MediaQuery
+                  //     .of(context)
+                  //     .size
+                  //     .height / 10,
                   child: Center(
                     child: Image.asset(
-                      'assets/images/img.png',
-                      height: 200,
-                      width: 200,
+                      imagePath,
+                      height: surbex==true? MediaQuery.of(context).size.height:200,
+                      width: surbex==true? MediaQuery.of(context).size.width:200,
                     ),
                   ),
                 ),
@@ -48,13 +61,13 @@ class ProjectPageX extends StatelessWidget {
                         .of(context)
                         .size
                         .width,
-                    padding: EdgeInsets.only(bottom: 20),
-                    color: Color.fromRGBO(255, 255, 255, 1.0),
+                    padding: const EdgeInsets.only(bottom: 20),
+                    color: const Color.fromRGBO(255, 255, 255, 1.0),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               flex: 1,
               child: Padding(
@@ -66,37 +79,37 @@ class ProjectPageX extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: Text(
-                        Name,
+                        name,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         softWrap: true,
                         textAlign: TextAlign.left,
-                        style: TextStyle(color: Colors.black, fontSize: 24),
+                        style: const TextStyle(color: Colors.black, fontSize: 24),
                       ),
                     ),
-                    SizedBox(height: 40,),
+                    const SizedBox(height: 40,),
                     Text(
                       maxLines: 3,
-                      Raised,
+                      raised,
                       overflow: TextOverflow.ellipsis,
                       softWrap: true,
                       textAlign: TextAlign.left,
 
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color.fromRGBO(0, 0, 0, 0.5), fontSize: 24),
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Text(
                       maxLines: 3,
-                      Total,
+                      total,
                       overflow: TextOverflow.ellipsis,
                       softWrap: true,
                       textAlign: TextAlign.left,
 
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color.fromRGBO(0, 0, 0, 0.5), fontSize: 24),
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Center(
                       child: Text(
                         maxLines: 3,
@@ -106,11 +119,11 @@ class ProjectPageX extends StatelessWidget {
                         softWrap: true,
                         textAlign: TextAlign.center,
 
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Color.fromRGBO(0, 0, 0, 0.5), fontSize: 24),
                       ),
                     ),
-                    Expanded(flex: 2, child: SizedBox(height: 150)),
+                    const Expanded(flex: 2, child: SizedBox(height: 150)),
                     Container(
                       width: MediaQuery
                           .of(context)
@@ -118,7 +131,7 @@ class ProjectPageX extends StatelessWidget {
                           .width - 40,
                       height: 60,
                       decoration: BoxDecoration(
-                        color: Color.fromRGBO(241, 59, 58, 1),
+                        color: const Color.fromRGBO(241, 59, 58, 1),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: InkWell(
@@ -130,7 +143,7 @@ class ProjectPageX extends StatelessWidget {
                             ),
                           );
                         },
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             "Donate Charity",
                             style: TextStyle(color: Colors.white, fontSize: 18),
@@ -138,7 +151,7 @@ class ProjectPageX extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,)
+                    const SizedBox(height: 10,)
                   ],
                 ),
               ),
