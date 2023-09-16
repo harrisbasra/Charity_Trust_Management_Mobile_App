@@ -7,18 +7,18 @@ import 'firebase_options.dart';
 
 
 void main() async {
-  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  //
-  // runApp(const MyApp());
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent
-  ));
+  SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent
+      )
+  );
   runApp(const MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
